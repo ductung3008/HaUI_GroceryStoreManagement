@@ -114,11 +114,12 @@ public class ResetPasswordView extends JFrame {
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
+
 				try {
-					User user = userDAO.getUserByEmail(email);
+					User user = userDAO.get(u -> u.getEmail().equals(email));
 					if (user == null) {
-						JOptionPane.showMessageDialog(ResetPasswordView.this ,"Email không tồn tại. Vui lòng thử lại.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(ResetPasswordView.this, "Email không tồn tại. Vui lòng thử lại.",
+								"Error", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
 				} catch (ClassNotFoundException e1) {
@@ -126,7 +127,6 @@ public class ResetPasswordView extends JFrame {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				
 
 				if (!otp.equals(sm.getOtp())) {
 					JOptionPane.showMessageDialog(ResetPasswordView.this, "Vui lòng kiểm tra lại mã xác nhận", "Error",
@@ -142,11 +142,16 @@ public class ResetPasswordView extends JFrame {
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
+
 				try {
-					User user = userDAO.getUserByEmail(email);
+					User user = userDAO.get(u -> u.getEmail().equals(email));
 					user.setPassword(password);
-					userDAO.updateUser(user);
+					if (!userDAO.update(user)) {
+						JOptionPane.showMessageDialog(ResetPasswordView.this,
+								"Có lỗi trong quá trình lấy lại mật khẩu. Vui lòng thử lại", "Error",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				} catch (IOException e1) {
@@ -155,7 +160,7 @@ public class ResetPasswordView extends JFrame {
 
 				JOptionPane.showMessageDialog(ResetPasswordView.this,
 						"Mật khẩu mới đã được gửi về email. Vui lòng kiểm tra");
-				
+
 				FormUtils.resetForm(mainPanel);
 				dispose();
 				new LoginView();

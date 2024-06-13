@@ -6,17 +6,35 @@ import util.HashPassword;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Predicate;
 
-public class UserDAO {
+public class UserDAO implements DAO<User> {
 	private final String FILE_PATH = "/src/db/users.bin";
 	private final FileConnector<User> fileConnector = new FileConnector<User>();
 
 	public boolean isUserExist(String username, String email) throws ClassNotFoundException, IOException {
 		List<User> users = fileConnector.readFromFile(FILE_PATH);
-		return users.stream().anyMatch(user -> user.getUsername().equals(email) || user.getEmail().equals(email));
+		return users.stream().anyMatch(user -> user.getUsername().equals(username) || user.getEmail().equals(email));
 	}
 
-	public boolean addUser(User user) throws ClassNotFoundException, IOException {
+	@Override
+	public User get(Predicate<User> predicate) throws ClassNotFoundException, IOException {
+		List<User> users = fileConnector.readFromFile(FILE_PATH);
+		for (User user : users) {
+			if (predicate.test(user)) {
+				return user;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<User> getAll() throws ClassNotFoundException, IOException {
+		return fileConnector.readFromFile(FILE_PATH);
+	}
+
+	@Override
+	public boolean add(User user) throws ClassNotFoundException, IOException {
 		if (isUserExist(user.getUsername(), user.getEmail())) {
 			return false;
 		}
@@ -26,53 +44,25 @@ public class UserDAO {
 
 	}
 
-	public List<User> getAllUsers() throws ClassNotFoundException, IOException {
-		return fileConnector.readFromFile(FILE_PATH);
-	}
-
-	public User getUserByUsername(String username) throws IOException, ClassNotFoundException {
+	@Override
+	public boolean update(User updatedUser) throws ClassNotFoundException, IOException {
+		updatedUser.setPassword(HashPassword.hashPassword(updatedUser.getPassword()));
 		List<User> users = fileConnector.readFromFile(FILE_PATH);
-		for (User user : users) {
-			if (user.getUsername().equals(username)) {
-				return user;
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).getEmail().equals(updatedUser.getEmail())) {
+				users.set(i, updatedUser);
+				break;
 			}
 		}
-		return null;
+		fileConnector.writeToFile(FILE_PATH, users);
+		return true;
 	}
 
-	public User getUserByEmail(String email) throws IOException, ClassNotFoundException {
+	@Override
+	public boolean delete(User deletedUser) throws ClassNotFoundException, IOException {
 		List<User> users = fileConnector.readFromFile(FILE_PATH);
-		for (User user : users) {
-			if (user.getEmail().equals(email)) {
-				return user;
-			}
-		}
-		return null;
-	}
-
-	public void updateUser(User updatedUser) {
-		try {
-			updatedUser.setPassword(HashPassword.hashPassword(updatedUser.getPassword()));
-			List<User> users = fileConnector.readFromFile(FILE_PATH);
-			for (int i = 0; i < users.size(); i++) {
-				if (users.get(i).getEmail().equals(updatedUser.getEmail())) {
-					users.set(i, updatedUser);
-					break;
-				}
-			}
-			fileConnector.writeToFile(FILE_PATH, users);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void deleteUser(String username) {
-		try {
-			List<User> users = fileConnector.readFromFile(FILE_PATH);
-			users.removeIf(user -> user.getUsername().equals(username));
-			fileConnector.writeToFile(FILE_PATH, users);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		users.removeIf(user -> user.equals(deletedUser));
+		fileConnector.writeToFile(FILE_PATH, users);
+		return true;
 	}
 }
