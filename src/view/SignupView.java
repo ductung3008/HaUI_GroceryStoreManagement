@@ -112,30 +112,35 @@ public class SignupView extends JFrame {
 		signupBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!FormUtils.ValidateForm(mainPanel)) {
-					JOptionPane.showMessageDialog(SignupView.this ,"Vui lòng nhập đầy đủ thông tin", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(SignupView.this, "Vui lòng nhập đầy đủ thông tin", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
+
 				String username = usernameField.getText();
 				String password = passwordField.getText();
 				String rePassword = rePasswordField.getText();
 				String email = emailField.getText();
 				String otp = otpField.getText();
-				
+
 				if (!password.equals(rePassword)) {
-					JOptionPane.showMessageDialog(SignupView.this ,"Vui lòng kiểm tra lại mật khẩu", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(SignupView.this, "Vui lòng kiểm tra lại mật khẩu", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
+
 				if (!otp.equals(sm.getOtp())) {
-					JOptionPane.showMessageDialog(SignupView.this ,"Vui lòng kiểm tra lại mã xác nhận", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(SignupView.this, "Vui lòng kiểm tra lại mã xác nhận", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
+
 				User user = new User(username, email, rePassword, false);
 				try {
-					if (!userDAO.addUser(user)) {
-						JOptionPane.showMessageDialog(SignupView.this ,"Đã tồn tại tài khoản với tên tài khoản hoặc email này. Vui lòng thử lại.", "Error", JOptionPane.ERROR_MESSAGE);
+					if (!userDAO.add(user)) {
+						JOptionPane.showMessageDialog(SignupView.this,
+								"Đã tồn tại tài khoản với tên tài khoản hoặc email này. Vui lòng thử lại.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 						return;
 					}
 				} catch (ClassNotFoundException e1) {
@@ -143,9 +148,9 @@ public class SignupView extends JFrame {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				
-				JOptionPane.showMessageDialog(SignupView.this ,"Đăng ký thành công");
-				
+
+				JOptionPane.showMessageDialog(SignupView.this, "Đăng ký thành công");
+
 				FormUtils.resetForm(mainPanel);
 				dispose();
 				new LoginView();
@@ -248,22 +253,39 @@ public class SignupView extends JFrame {
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		otpField.setBounds(0, 32, 299, 36);
 		otpPanel.add(otpField);
-		
+
 		JButton otpBtn = new JButton("GỬI MÃ");
 		otpBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String username = usernameField.getText();
 				String email = emailField.getText();
-				
+
 				if (email.isEmpty()) {
-					JOptionPane.showMessageDialog(SignupView.this ,"Vui lòng điền email.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(SignupView.this, "Vui lòng điền email.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
+
+				try {
+					if (userDAO.isUserExist(username, email)) {
+						JOptionPane.showMessageDialog(SignupView.this,
+								"Đã tồn tại tài khoản với tên tài khoản hoặc email này. Vui lòng thử lại.", "Error",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				} catch (ClassNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
 				if (!sm.sendOtp(emailField.getText())) {
-					JOptionPane.showMessageDialog(SignupView.this ,"Có lỗi trong quá trình lấy mã xác nhận. Vui lòng thử lại", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(SignupView.this,
+							"Có lỗi trong quá trình lấy mã xác nhận. Vui lòng thử lại", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
+
 				JOptionPane.showMessageDialog(SignupView.this, "Mã xác nhận đã được gửi vào email. Vui lòng kiểm tra.");
 			}
 		});

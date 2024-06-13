@@ -106,18 +106,20 @@ public class LoginView extends JFrame {
 		loginBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!FormUtils.ValidateForm(mainPanel)) {
-					JOptionPane.showMessageDialog(LoginView.this ,"Vui lòng nhập đầy đủ thông tin", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(LoginView.this, "Vui lòng nhập đầy đủ thông tin", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
+
 				String username = usernameField.getText();
 				String password = passwordField.getText();
-				
+
 				try {
-					User user = userDAO.getUserByUsername(username);
-					
+					User user = userDAO.get(u -> u.getUsername().equals(username));
+
 					if (user == null || !user.getPassword().equals(HashPassword.hashPassword(password))) {
-						JOptionPane.showMessageDialog(LoginView.this ,"Tên đăng nhập hoặc mật khẩu không chính xác.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(LoginView.this, "Tên đăng nhập hoặc mật khẩu không chính xác.",
+								"Error", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
 				} catch (ClassNotFoundException e1) {
@@ -125,8 +127,8 @@ public class LoginView extends JFrame {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				
-				JOptionPane.showMessageDialog(LoginView.this , "Đăng nhập thành công");
+
+				JOptionPane.showMessageDialog(LoginView.this, "Đăng nhập thành công");
 			}
 		});
 		loginBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
