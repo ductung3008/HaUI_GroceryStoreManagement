@@ -46,7 +46,6 @@ public class UserDAO implements DAO<User> {
 
 	@Override
 	public boolean update(User updatedUser) throws ClassNotFoundException, IOException {
-		updatedUser.setPassword(HashPassword.hashPassword(updatedUser.getPassword()));
 		List<User> users = fileConnector.readFromFile(FILE_PATH);
 		for (int i = 0; i < users.size(); i++) {
 			if (users.get(i).getEmail().equals(updatedUser.getEmail())) {
