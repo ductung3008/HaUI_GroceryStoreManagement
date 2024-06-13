@@ -4,17 +4,20 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static int id;
+	private int id;
 	private String username;
 	private String email;
 	private String password;
 	private boolean isVerify;
+	
+	private static int id_count = 1;
 
 	public User() {
 	}
 
 	public User(String username, String email, String password, boolean isVerify) {
-		User.id++;
+		this.id = User.id_count;
+		User.id_count++;
 		this.username = username;
 		this.email = email;
 		this.password = password;
@@ -57,4 +60,10 @@ public class User implements Serializable {
 		this.isVerify = isVerify;
 	}
 
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
+				+ ", isVerify=" + isVerify + "]";
+	}
+	
 }
