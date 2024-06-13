@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import dao.UserDAO;
 import model.User;
 import util.FormUtils;
+import util.HashPassword;
 import util.PasswordGenerator;
 import util.SendMail;
 
@@ -145,7 +146,7 @@ public class ResetPasswordView extends JFrame {
 
 				try {
 					User user = userDAO.get(u -> u.getEmail().equals(email));
-					user.setPassword(password);
+					user.setPassword(HashPassword.hashPassword(password));
 					if (!userDAO.update(user)) {
 						JOptionPane.showMessageDialog(ResetPasswordView.this,
 								"Có lỗi trong quá trình lấy lại mật khẩu. Vui lòng thử lại", "Error",

@@ -122,13 +122,22 @@ public class LoginView extends JFrame {
 								"Error", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
+					
+					if (!user.isVerify()) {
+						JOptionPane.showMessageDialog(LoginView.this, "Tài khoản của bạn không có quyền truy cập. Vui lòng liên hệ Admin.",
+								"Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					
+					JOptionPane.showMessageDialog(LoginView.this, "Đăng nhập thành công");
+					dispose();
+					new Home(user);
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 
-				JOptionPane.showMessageDialog(LoginView.this, "Đăng nhập thành công");
 			}
 		});
 		loginBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));

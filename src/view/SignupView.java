@@ -135,7 +135,7 @@ public class SignupView extends JFrame {
 					return;
 				}
 
-				User user = new User(username, email, rePassword, false);
+				User user = new User(username, email, password, false);
 				try {
 					if (!userDAO.add(user)) {
 						JOptionPane.showMessageDialog(SignupView.this,
