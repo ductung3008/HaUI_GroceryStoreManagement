@@ -43,7 +43,7 @@ public class ChangePasswordView extends JFrame {
 		this.setIconImage(icon);
 		setResizable(false);
 		setTitle("Đổi mật khẩu");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		mainPanel = new JPanel();
 		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
