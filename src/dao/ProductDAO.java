@@ -3,6 +3,7 @@ package dao;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import model.Product;
 import util.FileConnector;
@@ -29,6 +30,12 @@ public class ProductDAO implements DAO<Product> {
 
 	@Override
 	public boolean add(Product product) throws ClassNotFoundException, IOException {
+		List<Product> products = getAll();
+		for (Product p : products) {
+			if (p.getId() == product.getId()) {
+				return false;
+			}
+		}
 		fileConnector.appendObject(FILE_PATH, product);
 		return true;
 	}
@@ -49,9 +56,17 @@ public class ProductDAO implements DAO<Product> {
 	@Override
 	public boolean delete(Product deletedProduct) throws ClassNotFoundException, IOException {
 		List<Product> products = fileConnector.readFromFile(FILE_PATH);
-		products.removeIf(user -> user.equals(deletedProduct));
+		products.removeIf(product -> product.getId() == deletedProduct.getId());
 		fileConnector.writeToFile(FILE_PATH, products);
 		return true;
 	}
+	
+	public List<Product> searchByName(String name) throws ClassNotFoundException, IOException {
+		List<Product> products = getAll();
+		return products.stream()
+				.filter(product -> product.getName().toLowerCase().contains(name.toLowerCase()))
+				.collect(Collectors.toList());
+	}
+
 
 }

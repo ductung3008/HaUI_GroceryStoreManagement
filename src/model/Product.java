@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -59,6 +60,30 @@ public class Product implements Serializable {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", categoryId=" + categoryId + ", price=" + price
+				+ ", quantity=" + quantity + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(categoryId, id, name, price, quantity);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return categoryId == other.categoryId && id == other.id && Objects.equals(name, other.name)
+				&& Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price) && quantity == other.quantity;
 	}
 
 }
