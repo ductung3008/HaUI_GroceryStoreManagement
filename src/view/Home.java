@@ -87,11 +87,20 @@ public class Home extends JFrame {
 		mainPanel.add(logoLabel);
 		
 		JButton btnNewButton = new JButton("Quản lý loại sản phẩm");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new CategoryManagementView();
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnNewButton.setBounds(365, 315, 200, 32);
 		mainPanel.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Quản lý sản phẩm");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnNewButton_1.setBounds(365, 390, 200, 32);
 		mainPanel.add(btnNewButton_1);
