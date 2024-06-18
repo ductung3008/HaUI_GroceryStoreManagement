@@ -3,8 +3,8 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 
-import model.Category;
 import dao.CategoryDAO;
+import model.Category;
 import view.CategoryManagementView;
 
 public class CategoryController {
