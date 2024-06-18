@@ -1,12 +1,12 @@
 package dao;
 
-import model.User;
-import util.FileConnector;
-import util.HashPassword;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Predicate;
+
+import model.User;
+import util.FileConnector;
+import util.HashPassword;
 
 public class UserDAO implements DAO<User> {
 	private final String FILE_PATH = "/src/db/users.bin";
