@@ -1,41 +1,42 @@
 package view;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
-import util.ButtonHover;
-
 import java.awt.BorderLayout;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.List;
-import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 import controller.CategoryController;
@@ -43,6 +44,8 @@ import controller.ProductController;
 import dao.CategoryDAO;
 import dao.ProductDAO;
 import model.Product;
+import service.ProductSelection;
+import util.ButtonHover;
 
 public class ProductManagementView extends JFrame {
 
@@ -51,19 +54,22 @@ public class ProductManagementView extends JFrame {
 	private JTextField searchField;
 	private Timer searchTimer;
 	private JTable table;
+	private JComboBox<String> sortComboBox;
 	private ProductController productController;
 	private ProductDAO productDAO;
 	private CategoryDAO categoryDAO;
 	private CategoryController categoryController;
-
-	public static void main(String[] args) {
-		new ProductManagementView().setVisible(true);
-	}
+	private ProductSelection ps;
 
 	/**
 	 * Create the frame.
 	 */
 	public ProductManagementView() {
+		this(false, null);
+	}
+
+	public ProductManagementView(boolean isBuying, ProductSelection listener) {
+		this.ps = listener;
 		productDAO = new ProductDAO();
 		categoryDAO = new CategoryDAO();
 		categoryController = new CategoryController(categoryDAO, null);
@@ -194,23 +200,6 @@ public class ProductManagementView extends JFrame {
 		}
 		ButtonHover.addButtonHover(deleteBtn);
 
-		JButton detailBtn = new JButton("XEM CHI TIẾT");
-		detailBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		headerPanel.add(detailBtn);
-		detailBtn.setOpaque(false);
-		detailBtn.setContentAreaFilled(false);
-		detailBtn.setBorderPainted(false);
-		try {
-			Image img = ImageIO.read(getClass().getResource("/resources/detail-icon.png"));
-			Image sizedImg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-			detailBtn.setIcon(new ImageIcon(sizedImg));
-			detailBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
-			detailBtn.setHorizontalTextPosition(SwingConstants.CENTER);
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		ButtonHover.addButtonHover(detailBtn);
-
 		JButton exportBtn = new JButton("XUẤT RA PDF");
 		exportBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -249,6 +238,7 @@ public class ProductManagementView extends JFrame {
 		searchTimer = new Timer(500, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				sortComboBox.setSelectedIndex(0);
 				String name = searchField.getText();
 				try {
 					productController.searchProducts(name);
@@ -266,7 +256,6 @@ public class ProductManagementView extends JFrame {
 		searchField.setBorder(BorderFactory.createCompoundBorder(searchField.getBorder(),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		searchField.getDocument().addDocumentListener(new DocumentListener() {
-
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				restartTimer();
@@ -295,12 +284,53 @@ public class ProductManagementView extends JFrame {
 		searchLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		searchPanel.add(searchLabel, BorderLayout.NORTH);
 
+		JPanel sortPanel = new JPanel();
+		headerPanel.add(sortPanel);
+		sortPanel.setLayout(new BorderLayout(0, 0));
+
+		JLabel sortLabel = new JLabel("Sắp xếp theo giá");
+		sortLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		sortPanel.add(sortLabel, BorderLayout.NORTH);
+
+		sortComboBox = new JComboBox<String>();
+		sortComboBox
+				.setModel(new DefaultComboBoxModel<String>(new String[] { "Không sắp xếp", "Tăng dần", "Giảm dần" }));
+		sortComboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		sortComboBox.setBorder(BorderFactory.createCompoundBorder(sortComboBox.getBorder(),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		sortPanel.add(sortComboBox, BorderLayout.SOUTH);
+
+		sortComboBox.addActionListener(new ActionListener() {
+			private Timer sortTimer = new Timer(500, e -> {
+				int choose = sortComboBox.getSelectedIndex();
+				if (choose == 0)
+					return;
+				boolean isINC = choose == 1 ? true : false;
+				productController.sortProductsByPrice(getDataFromTable(), isINC);
+			});
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (sortTimer.isRunning()) {
+					sortTimer.restart();
+				} else {
+					sortTimer.start();
+				}
+			}
+		});
+
 		table = new JTable();
 		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "ID", "T\u00EAn s\u1EA3n ph\u1EA9m",
-				"Lo\u1EA1i s\u1EA3n ph\u1EA9m", "Gi\u00E1", "S\u1ED1 l\u01B0\u1EE3ng" }));
+				"Lo\u1EA1i s\u1EA3n ph\u1EA9m", "\u0110\u01A1n gi\u00E1", "S\u1ED1 l\u01B0\u1EE3ng c\u00F2n" }));
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table.getColumnModel().getColumn(0).setMinWidth(40);
 		table.getColumnModel().getColumn(0).setMaxWidth(40);
+		table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		table.getColumnModel().getColumn(3).setMinWidth(100);
+		table.getColumnModel().getColumn(3).setMaxWidth(100);
+		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().getColumn(4).setMinWidth(100);
+		table.getColumnModel().getColumn(4).setMaxWidth(100);
 		table.setRowHeight(30);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -311,6 +341,43 @@ public class ProductManagementView extends JFrame {
 			updateProductTable(productController.getAllProducts());
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
+		}
+
+		if (isBuying) {
+			addBtn.setVisible(false);
+			editBtn.setVisible(false);
+			deleteBtn.setVisible(false);
+			exportBtn.setVisible(false);
+
+			table.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+					if (e.getClickCount() == 2) {
+						int selectedRow = table.getSelectedRow();
+						if (selectedRow != -1) {
+							int productId = Integer.valueOf((String) (dtm.getValueAt(selectedRow, 0)));
+							int productQuantity = Integer.valueOf((String) (dtm.getValueAt(selectedRow, 4)));
+
+							int buyQuantity = Integer.valueOf(JOptionPane.showInputDialog("Nhập số lượng: "));
+							if (buyQuantity > productQuantity) {
+								JOptionPane.showMessageDialog(ProductManagementView.this, "Không đủ số lượng", "Error",
+										JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+
+							Product selectedProduct;
+							try {
+								selectedProduct = productController.getProductById(productId);
+								ps.onProductSelected(selectedProduct, buyQuantity);
+								dispose();
+							} catch (ClassNotFoundException | IOException e1) {
+								e1.printStackTrace();
+							}
+						}
+					}
+				}
+			});
 		}
 
 		setLocationRelativeTo(null);
@@ -345,4 +412,21 @@ public class ProductManagementView extends JFrame {
 		}
 		return null;
 	}
+
+	public List<Product> getDataFromTable() {
+		List<Product> products = new ArrayList<>();
+		DefaultTableModel dtm = (DefaultTableModel) this.table.getModel();
+		int rowCount = dtm.getRowCount();
+		for (int i = 0; i < rowCount; i++) {
+			int id = Integer.parseInt(dtm.getValueAt(i, 0).toString());
+			try {
+				Product product = productController.getProductById(id);
+				products.add(product);
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return products;
+	}
+
 }

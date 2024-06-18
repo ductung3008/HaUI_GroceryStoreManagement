@@ -1,41 +1,44 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
+import controller.BillController;
+import dao.BillDAO;
+import model.Bill;
 import model.User;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.Color;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class Home extends JFrame {
-
 	private static final long serialVersionUID = 1L;
-	private User user;
 	private JPanel mainPanel;
 
-	public static void main(String[] args) {
-		new Home(new User());
-	}
-	
 	/**
 	 * Create the frame.
 	 */
 	public Home(User user) {
-		this.user = user;
 		Image icon = Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/logo.png"));
 		this.setIconImage(icon);
 		setResizable(false);
@@ -47,24 +50,24 @@ public class Home extends JFrame {
 
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 11, 348, 50);
 		mainPanel.add(panel);
 		panel.setLayout(null);
-		
+
 		String helloText = "Xin chào, " + user.getUsername() + "!";
 		JLabel helloLabel = new JLabel(helloText);
 		helloLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		helloLabel.setBounds(10, 11, 328, 28);
 		panel.add(helloLabel);
-		
+
 		JLabel titleLabel = new JLabel("Hệ thống quản lý tiệm tạp hóa HaUI", SwingConstants.CENTER);
 		titleLabel.setForeground(Color.ORANGE);
 		titleLabel.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		titleLabel.setBounds(0, 41, 1264, 101);
 		mainPanel.add(titleLabel);
-		
+
 		JButton logoutBtn = new JButton("ĐĂNG XUẤT");
 		logoutBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -78,38 +81,44 @@ public class Home extends JFrame {
 		logoutBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		logoutBtn.setBounds(1128, 11, 126, 32);
 		mainPanel.add(logoutBtn);
-		
+
 		ImageIcon logoIcon = new ImageIcon(getClass().getResource("/resources/haui_logo.png"));
 		Image logoImg = logoIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 		logoIcon = new ImageIcon(logoImg);
 		JLabel logoLabel = new JLabel(logoIcon);
 		logoLabel.setBounds(10, 131, 1244, 150);
 		mainPanel.add(logoLabel);
-		
-		JButton btnNewButton = new JButton("Quản lý loại sản phẩm");
-		btnNewButton.addActionListener(new ActionListener() {
+
+		JButton categoryBtn = new JButton("Quản lý loại sản phẩm");
+		categoryBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new CategoryManagementView();
 			}
 		});
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnNewButton.setBounds(365, 315, 200, 32);
-		mainPanel.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Quản lý sản phẩm");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		categoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		categoryBtn.setBounds(365, 315, 200, 32);
+		mainPanel.add(categoryBtn);
+
+		JButton productBtn = new JButton("Quản lý sản phẩm");
+		productBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new ProductManagementView();
 			}
 		});
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnNewButton_1.setBounds(365, 390, 200, 32);
-		mainPanel.add(btnNewButton_1);
-		
-		JButton btnNewButton_2 = new JButton("Quản lý hóa đơn");
-		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnNewButton_2.setBounds(365, 468, 200, 32);
-		mainPanel.add(btnNewButton_2);
-		
+		productBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		productBtn.setBounds(365, 390, 200, 32);
+		mainPanel.add(productBtn);
+
+		JButton billBtn = new JButton("Quản lý hóa đơn");
+		billBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new BillManagementView(user);
+			}
+		});
+		billBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		billBtn.setBounds(365, 468, 200, 32);
+		mainPanel.add(billBtn);
+
 		JButton verifyUserBtn = new JButton("Xác minh tài khoản");
 		verifyUserBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -119,12 +128,51 @@ public class Home extends JFrame {
 		verifyUserBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		verifyUserBtn.setBounds(699, 315, 200, 32);
 		mainPanel.add(verifyUserBtn);
-		
-		JButton btnNewButton_4 = new JButton("Thống kê");
-		btnNewButton_4.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnNewButton_4.setBounds(699, 390, 200, 32);
-		mainPanel.add(btnNewButton_4);
-		
+
+		JButton statBtn = new JButton("Thống kê");
+		statBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+				Map<String, Double> revenue = new TreeMap<String, Double>();
+
+				BillDAO billDAO = new BillDAO();
+				BillController billController = new BillController(billDAO, null);
+				try {
+					List<Bill> bills = billController.getAllBills();
+
+					for (int i = 1; i <= 12; i++) {
+						String month = String.format("%02d", i);
+						revenue.put(month, revenue.getOrDefault(month, 0.0));
+					}
+
+					for (Bill bill : bills) {
+						String month = bill.getDate().substring(3, 5);
+						revenue.put(month, revenue.getOrDefault(month, 0.0) + bill.getTotal());
+					}
+
+					for (Map.Entry<String, Double> entry : revenue.entrySet()) {
+						dataset.addValue(entry.getValue(), "Doanh thu (đồng)", entry.getKey());
+					}
+
+					JFreeChart barChart = ChartFactory.createBarChart("Thống kê doanh thu", "Tháng", "Doanh thu (đồng)",
+							dataset, PlotOrientation.VERTICAL, true, true, false);
+
+					JFrame frame = new JFrame();
+					frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					frame.setSize(960, 540);
+					frame.add(new ChartPanel(barChart));
+					frame.setLocationRelativeTo(null);
+					frame.setVisible(true);
+				} catch (ClassNotFoundException | IOException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
+		statBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		statBtn.setBounds(699, 390, 200, 32);
+		mainPanel.add(statBtn);
+
 		JButton changePassBtn = new JButton("Đổi mật khẩu");
 		changePassBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -134,8 +182,7 @@ public class Home extends JFrame {
 		changePassBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		changePassBtn.setBounds(699, 468, 200, 32);
 		mainPanel.add(changePassBtn);
-		
-		
+
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
