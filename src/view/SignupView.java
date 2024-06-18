@@ -36,6 +36,8 @@ public class SignupView extends JFrame {
 	private JTextField otpField;
 	private SendMail sm;
 	private UserDAO userDAO;
+	private boolean isPassHide;
+	private boolean isRePassHide;
 
 	/**
 	 * Create the frame.
@@ -291,6 +293,87 @@ public class SignupView extends JFrame {
 		otpBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		otpBtn.setBounds(478, 354, 84, 37);
 		signupPanel.add(otpBtn);
+
+		isPassHide = true;
+		isRePassHide = true;
+
+		JButton togglePassBtn = new JButton("");
+		togglePassBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (isPassHide) {
+					((JPasswordField) passwordField).setEchoChar((char) 0);
+					try {
+						Image img = ImageIO.read(getClass().getResource("/resources/show-password-icon.png"));
+						Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+						togglePassBtn.setIcon(new ImageIcon(sizedImg));
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
+				} else {
+					((JPasswordField) passwordField).setEchoChar('●');
+					try {
+						Image img = ImageIO.read(getClass().getResource("/resources/hide-password-icon.png"));
+						Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+						togglePassBtn.setIcon(new ImageIcon(sizedImg));
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
+				}
+				isPassHide = !isPassHide;
+			}
+		});
+		togglePassBtn.setOpaque(false);
+		togglePassBtn.setContentAreaFilled(false);
+		togglePassBtn.setBorderPainted(false);
+		try {
+			Image img = ImageIO.read(getClass().getResource("/resources/hide-password-icon.png"));
+			Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+			togglePassBtn.setIcon(new ImageIcon(sizedImg));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		togglePassBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		togglePassBtn.setBounds(467, 119, 50, 36);
+		signupPanel.add(togglePassBtn);
+
+		JButton toggleRePassBtn = new JButton("");
+		toggleRePassBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (isRePassHide) {
+					((JPasswordField) rePasswordField).setEchoChar((char) 0);
+					try {
+						Image img = ImageIO.read(getClass().getResource("/resources/show-password-icon.png"));
+						Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+						toggleRePassBtn.setIcon(new ImageIcon(sizedImg));
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
+				} else {
+					((JPasswordField) rePasswordField).setEchoChar('●');
+					try {
+						Image img = ImageIO.read(getClass().getResource("/resources/hide-password-icon.png"));
+						Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+						toggleRePassBtn.setIcon(new ImageIcon(sizedImg));
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
+				}
+				isRePassHide = !isRePassHide;
+			}
+		});
+		toggleRePassBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		toggleRePassBtn.setBounds(467, 197, 50, 36);
+		toggleRePassBtn.setOpaque(false);
+		toggleRePassBtn.setContentAreaFilled(false);
+		toggleRePassBtn.setBorderPainted(false);
+		try {
+			Image img = ImageIO.read(getClass().getResource("/resources/hide-password-icon.png"));
+			Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+			toggleRePassBtn.setIcon(new ImageIcon(sizedImg));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		signupPanel.add(toggleRePassBtn);
 
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);

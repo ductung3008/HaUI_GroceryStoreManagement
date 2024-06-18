@@ -103,8 +103,8 @@ public class ResetPasswordView extends JFrame {
 				BorderFactory.createCompoundBorder(otpField.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		otpPanel.add(otpField);
 
-		JButton loginBtn = new JButton("CẤP LẠI MẬT KHẨU");
-		loginBtn.addActionListener(new ActionListener() {
+		JButton resetPassBtn = new JButton("CẤP LẠI MẬT KHẨU");
+		resetPassBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String email = emailField.getText();
 				String otp = otpField.getText();
@@ -166,9 +166,9 @@ public class ResetPasswordView extends JFrame {
 				new LoginView();
 			}
 		});
-		loginBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		loginBtn.setBounds(480, 220, 299, 32);
-		loginPanel.add(loginBtn);
+		resetPassBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		resetPassBtn.setBounds(480, 220, 299, 32);
+		loginPanel.add(resetPassBtn);
 
 		JButton otpBtn = new JButton("GỬI MÃ XÁC NHẬN");
 		otpBtn.addActionListener(new ActionListener() {
@@ -195,6 +195,17 @@ public class ResetPasswordView extends JFrame {
 		otpBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		otpBtn.setBounds(480, 177, 299, 32);
 		loginPanel.add(otpBtn);
+
+		JButton loginBtn = new JButton("QUAY LẠI ĐĂNG NHẬP");
+		loginBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new LoginView();
+			}
+		});
+		loginBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		loginBtn.setBounds(480, 263, 299, 32);
+		loginPanel.add(loginBtn);
 
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);

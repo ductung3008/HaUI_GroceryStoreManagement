@@ -32,6 +32,7 @@ public class LoginView extends JFrame {
 	private JTextField usernameField;
 	private JTextField passwordField;
 	private UserDAO userDAO;
+	boolean isHide;
 
 	/**
 	 * Create the frame.
@@ -203,6 +204,46 @@ public class LoginView extends JFrame {
 			System.out.println(e);
 		}
 		panel.add(forgotPasswordBtn);
+
+		isHide = true;
+		JButton togglePassBtn = new JButton("");
+		togglePassBtn.setBounds(779, 120, 50, 36);
+		loginPanel.add(togglePassBtn);
+		togglePassBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (isHide) {
+					((JPasswordField) passwordField).setEchoChar((char) 0);
+					try {
+						Image img = ImageIO.read(getClass().getResource("/resources/show-password-icon.png"));
+						Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+						togglePassBtn.setIcon(new ImageIcon(sizedImg));
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
+				} else {
+					((JPasswordField) passwordField).setEchoChar('●');
+					try {
+						Image img = ImageIO.read(getClass().getResource("/resources/hide-password-icon.png"));
+						Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+						togglePassBtn.setIcon(new ImageIcon(sizedImg));
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
+				}
+				isHide = !isHide;
+			}
+		});
+		togglePassBtn.setOpaque(false);
+		togglePassBtn.setContentAreaFilled(false);
+		togglePassBtn.setBorderPainted(false);
+		try {
+			Image img = ImageIO.read(getClass().getResource("/resources/hide-password-icon.png"));
+			Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+			togglePassBtn.setIcon(new ImageIcon(sizedImg));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		togglePassBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);

@@ -7,7 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,6 +33,9 @@ public class ChangePasswordView extends JFrame {
 	private JTextField rePassField;
 	private JTextField newPassField;
 	private UserDAO userDAO;
+	private boolean isCurPassHide;
+	private boolean isNewPassHide;
+	private boolean isRePassHide;
 
 	/**
 	 * Create the frame.
@@ -49,10 +54,10 @@ public class ChangePasswordView extends JFrame {
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("ĐỔI MẬT KHẨU", SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblNewLabel.setBounds(0, 0, 434, 42);
-		mainPanel.add(lblNewLabel);
+		JLabel titleLabel = new JLabel("ĐỔI MẬT KHẨU", SwingConstants.CENTER);
+		titleLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		titleLabel.setBounds(0, 0, 434, 42);
+		mainPanel.add(titleLabel);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(41, 53, 329, 42);
@@ -108,8 +113,8 @@ public class ChangePasswordView extends JFrame {
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		panel_2.add(newPassField);
 
-		JButton btnNewButton = new JButton("ĐỔI MẬT KHẨU");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton changePassBtn = new JButton("ĐỔI MẬT KHẨU");
+		changePassBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!FormUtils.ValidateForm(mainPanel)) {
 					JOptionPane.showMessageDialog(ChangePasswordView.this, "Vui lòng nhập đầy đủ thông tin", "Error",
@@ -150,9 +155,127 @@ public class ChangePasswordView extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnNewButton.setBounds(147, 212, 137, 38);
-		mainPanel.add(btnNewButton);
+		changePassBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		changePassBtn.setBounds(147, 212, 137, 38);
+		mainPanel.add(changePassBtn);
+
+		isCurPassHide = true;
+		isNewPassHide = true;
+		isRePassHide = true;
+
+		JButton toggleCurPassBtn = new JButton("");
+		toggleCurPassBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (isCurPassHide) {
+					((JPasswordField) curPassField).setEchoChar((char) 0);
+					try {
+						Image img = ImageIO.read(getClass().getResource("/resources/show-password-icon.png"));
+						Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+						toggleCurPassBtn.setIcon(new ImageIcon(sizedImg));
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
+				} else {
+					((JPasswordField) curPassField).setEchoChar('●');
+					try {
+						Image img = ImageIO.read(getClass().getResource("/resources/hide-password-icon.png"));
+						Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+						toggleCurPassBtn.setIcon(new ImageIcon(sizedImg));
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
+				}
+				isCurPassHide = !isCurPassHide;
+			}
+		});
+		toggleCurPassBtn.setBounds(368, 53, 50, 42);
+		toggleCurPassBtn.setOpaque(false);
+		toggleCurPassBtn.setContentAreaFilled(false);
+		toggleCurPassBtn.setBorderPainted(false);
+		try {
+			Image img = ImageIO.read(getClass().getResource("/resources/hide-password-icon.png"));
+			Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+			toggleCurPassBtn.setIcon(new ImageIcon(sizedImg));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		mainPanel.add(toggleCurPassBtn);
+
+		JButton toggleNewPassBtn = new JButton("");
+		toggleNewPassBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (isNewPassHide) {
+					((JPasswordField) newPassField).setEchoChar((char) 0);
+					try {
+						Image img = ImageIO.read(getClass().getResource("/resources/show-password-icon.png"));
+						Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+						toggleNewPassBtn.setIcon(new ImageIcon(sizedImg));
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
+				} else {
+					((JPasswordField) newPassField).setEchoChar('●');
+					try {
+						Image img = ImageIO.read(getClass().getResource("/resources/hide-password-icon.png"));
+						Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+						toggleNewPassBtn.setIcon(new ImageIcon(sizedImg));
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
+				}
+				isNewPassHide = !isNewPassHide;
+			}
+		});
+		toggleNewPassBtn.setBounds(368, 106, 50, 42);
+		toggleNewPassBtn.setOpaque(false);
+		toggleNewPassBtn.setContentAreaFilled(false);
+		toggleNewPassBtn.setBorderPainted(false);
+		try {
+			Image img = ImageIO.read(getClass().getResource("/resources/hide-password-icon.png"));
+			Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+			toggleNewPassBtn.setIcon(new ImageIcon(sizedImg));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		mainPanel.add(toggleNewPassBtn);
+
+		JButton toggleRePassBtn = new JButton("");
+		toggleRePassBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (isRePassHide) {
+					((JPasswordField) rePassField).setEchoChar((char) 0);
+					try {
+						Image img = ImageIO.read(getClass().getResource("/resources/show-password-icon.png"));
+						Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+						toggleRePassBtn.setIcon(new ImageIcon(sizedImg));
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
+				} else {
+					((JPasswordField) rePassField).setEchoChar('●');
+					try {
+						Image img = ImageIO.read(getClass().getResource("/resources/hide-password-icon.png"));
+						Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+						toggleRePassBtn.setIcon(new ImageIcon(sizedImg));
+					} catch (Exception e1) {
+						System.out.println(e1);
+					}
+				}
+				isRePassHide = !isRePassHide;
+			}
+		});
+		toggleRePassBtn.setBounds(368, 159, 50, 42);
+		toggleRePassBtn.setOpaque(false);
+		toggleRePassBtn.setContentAreaFilled(false);
+		toggleRePassBtn.setBorderPainted(false);
+		try {
+			Image img = ImageIO.read(getClass().getResource("/resources/hide-password-icon.png"));
+			Image sizedImg = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+			toggleRePassBtn.setIcon(new ImageIcon(sizedImg));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		mainPanel.add(toggleRePassBtn);
 
 		setLocationRelativeTo(null);
 		setVisible(true);
