@@ -1,30 +1,29 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import dao.UserDAO;
 import model.User;
 import util.FormUtils;
 import util.HashPassword;
-
-import java.awt.BorderLayout;
-import javax.swing.JTextField;
-import java.awt.Font;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.awt.event.ActionEvent;
 
 public class LoginView extends JFrame {
 
@@ -122,13 +121,14 @@ public class LoginView extends JFrame {
 								"Error", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					
+
 					if (!user.isVerify()) {
-						JOptionPane.showMessageDialog(LoginView.this, "Tài khoản của bạn không có quyền truy cập. Vui lòng liên hệ Admin.",
-								"Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(LoginView.this,
+								"Tài khoản của bạn không có quyền truy cập. Vui lòng liên hệ Admin.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					
+
 					JOptionPane.showMessageDialog(LoginView.this, "Đăng nhập thành công");
 					dispose();
 					new Home(user);

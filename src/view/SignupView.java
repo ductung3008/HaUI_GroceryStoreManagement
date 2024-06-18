@@ -1,30 +1,29 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import dao.UserDAO;
 import model.User;
 import util.FormUtils;
 import util.SendMail;
-
-import java.awt.BorderLayout;
-import javax.swing.JTextField;
-import java.awt.Font;
-import javax.swing.JButton;
-import java.awt.Toolkit;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.awt.event.ActionEvent;
 
 public class SignupView extends JFrame {
 

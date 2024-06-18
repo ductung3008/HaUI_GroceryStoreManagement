@@ -9,29 +9,29 @@ import javax.swing.JTextField;
 
 public class FormUtils {
 	public static boolean ValidateForm(JPanel inputPanel) {
-        List<JTextField> jtfs = new ArrayList<>();
+		List<JTextField> jtfs = new ArrayList<>();
 
-        collectTextFields(inputPanel, jtfs);
+		collectTextFields(inputPanel, jtfs);
 
-        return jtfs.stream().noneMatch(jtf -> jtf.getText().isEmpty());
-    }
-	
+		return jtfs.stream().noneMatch(jtf -> jtf.getText().isEmpty());
+	}
+
 	public static void resetForm(JPanel inputPanel) {
 		List<JTextField> jtfs = new ArrayList<>();
-		
+
 		collectTextFields(inputPanel, jtfs);
-		
+
 		jtfs.forEach(jtf -> jtf.setText(""));
 	}
 
-    private static void collectTextFields(JPanel panel, List<JTextField> jtfs) {
-        Component[] components = panel.getComponents();
-        for (Component component : components) {
-            if (component instanceof JTextField) {
-                jtfs.add((JTextField) component);
-            } else if (component instanceof JPanel) {
-                collectTextFields((JPanel) component, jtfs);
-            }
-        }
-    }
+	private static void collectTextFields(JPanel panel, List<JTextField> jtfs) {
+		Component[] components = panel.getComponents();
+		for (Component component : components) {
+			if (component instanceof JTextField) {
+				jtfs.add((JTextField) component);
+			} else if (component instanceof JPanel) {
+				collectTextFields((JPanel) component, jtfs);
+			}
+		}
+	}
 }

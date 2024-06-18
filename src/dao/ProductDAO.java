@@ -11,7 +11,7 @@ import util.FileConnector;
 public class ProductDAO implements DAO<Product> {
 	private final String FILE_PATH = "/src/db/products.bin";
 	private final FileConnector<Product> fileConnector = new FileConnector<Product>();
-	
+
 	@Override
 	public Product get(Predicate<Product> predicate) throws ClassNotFoundException, IOException {
 		List<Product> products = fileConnector.readFromFile(FILE_PATH);
@@ -60,13 +60,11 @@ public class ProductDAO implements DAO<Product> {
 		fileConnector.writeToFile(FILE_PATH, products);
 		return true;
 	}
-	
+
 	public List<Product> searchByName(String name) throws ClassNotFoundException, IOException {
 		List<Product> products = getAll();
-		return products.stream()
-				.filter(product -> product.getName().toLowerCase().contains(name.toLowerCase()))
+		return products.stream().filter(product -> product.getName().toLowerCase().contains(name.toLowerCase()))
 				.collect(Collectors.toList());
 	}
-
 
 }

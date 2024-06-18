@@ -63,14 +63,8 @@ public class Product implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", categoryId=" + categoryId + ", price=" + price
-				+ ", quantity=" + quantity + "]";
-	}
-
-	@Override
 	public int hashCode() {
-		return Objects.hash(categoryId, id, name, price, quantity);
+		return Objects.hash(id);
 	}
 
 	@Override

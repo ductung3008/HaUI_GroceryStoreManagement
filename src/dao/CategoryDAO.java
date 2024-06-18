@@ -63,8 +63,7 @@ public class CategoryDAO implements DAO<Category> {
 
 	public List<Category> searchByName(String name) throws ClassNotFoundException, IOException {
 		List<Category> categories = getAll();
-		return categories.stream()
-				.filter(category -> category.getName().toLowerCase().contains(name.toLowerCase()))
+		return categories.stream().filter(category -> category.getName().toLowerCase().contains(name.toLowerCase()))
 				.collect(Collectors.toList());
 	}
 

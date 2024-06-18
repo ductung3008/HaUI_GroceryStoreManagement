@@ -1,31 +1,34 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
 
 public class Bill implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private String id;
 	private String name;
 	private int adminId;
 	private Date date;
-	private ArrayList<Product> products;
+	private HashMap<Product, Integer> products;
 	private double total;
 
 	public Bill() {
 	}
 
-	public Bill(int id, String name, int adminId, Date date, ArrayList<Product> products, double total) {
+	public Bill(String id, String name, int adminId, Date date, HashMap<Product, Integer> products) {
 		this.id = id;
 		this.name = name;
 		this.adminId = adminId;
 		this.date = date;
 		this.products = products;
-		this.total = total;
+		this.total = 0;
+		calcTotal();
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -37,11 +40,12 @@ public class Bill implements Serializable {
 		return adminId;
 	}
 
-	public Date getDate() {
-		return date;
+	public String getDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
+		return sdf.format(date);
 	}
 
-	public ArrayList<Product> getProducts() {
+	public HashMap<Product, Integer> getProducts() {
 		return products;
 	}
 
@@ -49,7 +53,7 @@ public class Bill implements Serializable {
 		return total;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -65,7 +69,7 @@ public class Bill implements Serializable {
 		this.date = date;
 	}
 
-	public void setProducts(ArrayList<Product> products) {
+	public void setProducts(HashMap<Product, Integer> products) {
 		this.products = products;
 	}
 
@@ -73,4 +77,9 @@ public class Bill implements Serializable {
 		this.total = total;
 	}
 
+	public void calcTotal() {
+		for (Product product : products.keySet()) {
+			total += product.getPrice() * products.get(product);
+		}
+	}
 }

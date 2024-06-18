@@ -1,7 +1,22 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -11,22 +26,6 @@ import dao.CategoryDAO;
 import model.Category;
 import model.Product;
 import util.FormUtils;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.HeadlessException;
-import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
 public class ProductView extends JFrame {
 
@@ -115,7 +114,7 @@ public class ProductView extends JFrame {
 
 				int id = Integer.valueOf(idField.getText());
 				String name = nameField.getText();
-				Category selectedCategory = (Category)categoryComboBox.getSelectedItem();
+				Category selectedCategory = (Category) categoryComboBox.getSelectedItem();
 				int categoryId = selectedCategory.getId();
 				double price = Float.valueOf(priceField.getText());
 				int quantity = Integer.valueOf(quantityField.getText());
@@ -174,7 +173,7 @@ public class ProductView extends JFrame {
 		categoryLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		categoryLabel.setBounds(67, 185, 120, 26);
 		mainPanel.add(categoryLabel);
-		
+
 		categoryComboBox = new JComboBox<Category>();
 		try {
 			List<Category> categories = categoryController.getAllCategories();

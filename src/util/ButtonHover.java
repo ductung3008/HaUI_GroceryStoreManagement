@@ -16,7 +16,7 @@ public class ButtonHover {
 				btn.setBackground(Color.LIGHT_GRAY);
 				btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				btn.setOpaque(false);

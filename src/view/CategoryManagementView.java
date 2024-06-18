@@ -1,23 +1,16 @@
 package view;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
-import util.ButtonHover;
-
 import java.awt.BorderLayout;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -26,21 +19,25 @@ import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.List;
-import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 import controller.CategoryController;
 import dao.CategoryDAO;
 import model.Category;
+import util.ButtonHover;
 
 public class CategoryManagementView extends JFrame {
 
@@ -51,10 +48,6 @@ public class CategoryManagementView extends JFrame {
 	private JTable table;
 	private CategoryController categoryController;
 	private CategoryDAO categoryDAO;
-
-	public static void main(String[] args) {
-		new CategoryManagementView().setVisible(true);
-	}
 
 	/**
 	 * Create the frame.
@@ -151,7 +144,7 @@ public class CategoryManagementView extends JFrame {
 
 				int option = JOptionPane.showConfirmDialog(CategoryManagementView.this,
 						"Bạn có chắc chắn muốn xóa không?");
-				
+
 				if (option == 0) {
 					try {
 						if (!categoryController.deleteCategory(category)) {
@@ -162,7 +155,7 @@ public class CategoryManagementView extends JFrame {
 					} catch (HeadlessException | ClassNotFoundException | IOException e1) {
 						e1.printStackTrace();
 					}
-	
+
 					try {
 						updateCategoryTable(categoryController.getAllCategories());
 					} catch (ClassNotFoundException | IOException e1) {
@@ -189,6 +182,18 @@ public class CategoryManagementView extends JFrame {
 		ButtonHover.addButtonHover(deleteBtn);
 
 		JButton detailBtn = new JButton("XEM CHI TIẾT");
+		detailBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Category category = getSelectedCategory();
+				if (category == null) {
+					JOptionPane.showMessageDialog(CategoryManagementView.this, "Vui lòng chọn loại sản phẩm", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				new ProductByCategoryView(category);
+			}
+		});
 		detailBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		headerPanel.add(detailBtn);
 		detailBtn.setOpaque(false);
@@ -290,13 +295,15 @@ public class CategoryManagementView extends JFrame {
 		searchPanel.add(searchLabel, BorderLayout.NORTH);
 
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"ID", "T\u00EAn lo\u1EA1i s\u1EA3n ph\u1EA9m", "M\u00F4 t\u1EA3"
+		table.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "ID", "T\u00EAn lo\u1EA1i s\u1EA3n ph\u1EA9m", "M\u00F4 t\u1EA3" }) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
 			}
-		));
+		});
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table.getColumnModel().getColumn(0).setMinWidth(40);
 		table.getColumnModel().getColumn(0).setMaxWidth(40);

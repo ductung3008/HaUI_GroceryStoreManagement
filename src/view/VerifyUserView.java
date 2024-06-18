@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -8,22 +10,18 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-
-import model.User;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import dao.UserDAO;
+import model.User;
 
 public class VerifyUserView extends JFrame {
 
@@ -55,7 +53,14 @@ public class VerifyUserView extends JFrame {
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		table.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "ID", "Username", "Email", "Tr\u1EA1ng th\u00E1i" }));
+				new String[] { "ID", "Username", "Email", "Tr\u1EA1ng th\u00E1i" }) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		});
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		table.getColumnModel().getColumn(0).setMinWidth(30);
 		table.getColumnModel().getColumn(0).setMaxWidth(30);

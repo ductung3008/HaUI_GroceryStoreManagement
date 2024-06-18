@@ -9,7 +9,7 @@ public class User implements Serializable {
 	private String email;
 	private String password;
 	private boolean isVerify;
-	
+
 	private static int id_count = 1;
 
 	public User() {
@@ -65,5 +65,5 @@ public class User implements Serializable {
 		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
 				+ ", isVerify=" + isVerify + "]";
 	}
-	
+
 }

@@ -1,10 +1,12 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-import model.Product;
 import dao.ProductDAO;
+import model.Product;
 import view.ProductManagementView;
 
 public class ProductController {
@@ -28,7 +30,8 @@ public class ProductController {
 		if (!productDAO.add(Product)) {
 			return false;
 		}
-		pmv.updateProductTable(getAllProducts());
+		if (pmv != null)
+			pmv.updateProductTable(getAllProducts());
 		return true;
 	}
 
@@ -36,7 +39,8 @@ public class ProductController {
 		if (!productDAO.update(Product)) {
 			return false;
 		}
-		pmv.updateProductTable(getAllProducts());
+		if (pmv != null)
+			pmv.updateProductTable(getAllProducts());
 		return true;
 	}
 
@@ -44,12 +48,27 @@ public class ProductController {
 		if (!productDAO.delete(Product)) {
 			return false;
 		}
-		pmv.updateProductTable(getAllProducts());
+		if (pmv != null)
+			pmv.updateProductTable(getAllProducts());
 		return true;
 	}
 
 	public void searchProducts(String name) throws ClassNotFoundException, IOException {
 		List<Product> products = productDAO.searchByName(name);
+		pmv.updateProductTable(products);
+	}
+
+	public void sortProductsByPrice(List<Product> products, boolean isINC) {
+		Collections.sort(products, new Comparator<Product>() {
+			@Override
+			public int compare(Product p1, Product p2) {
+				if (isINC) {
+					return Double.compare(p1.getPrice(), p2.getPrice());
+				} else {
+					return Double.compare(p2.getPrice(), p1.getPrice());
+				}
+			}
+		});
 		pmv.updateProductTable(products);
 	}
 }
