@@ -2,7 +2,6 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,8 +36,8 @@ public class BillDetailView extends JFrame {
 		userDAO = new UserDAO();
 		userController = new UserController(userDAO);
 
-		Image icon = Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/logo.png"));
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(BillDetailView.class.getResource("/resources/bill-icon.png")));
+		this.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(BillDetailView.class.getResource("/resources/bill-icon.png")));
 		HashMap<Product, Integer> products = bill.getProducts();
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -2,7 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.List;
@@ -38,8 +37,8 @@ public class ProductByCategoryView extends JFrame {
 		categoryId = category.getId();
 		productDAO = new ProductDAO();
 		productController = new ProductController(productDAO, null);
-		Image icon = Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/logo.png"));
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(ProductByCategoryView.class.getResource("/resources/product-management2.png")));
+		this.setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(ProductByCategoryView.class.getResource("/resources/product-management2.png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 720);

@@ -46,8 +46,8 @@ public class SignupView extends JFrame {
 	public SignupView() {
 		sm = new SendMail();
 		userDAO = new UserDAO();
-		Image icon = Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/logo.png"));
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/signup_icon.png")));
+		this.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/signup_icon.png")));
 		setResizable(false);
 		setTitle("Đăng ký tài khoản");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

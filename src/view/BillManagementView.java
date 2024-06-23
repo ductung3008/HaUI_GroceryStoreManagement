@@ -58,8 +58,8 @@ public class BillManagementView extends JFrame {
 		billDAO = new BillDAO();
 		billController = new BillController(billDAO, this);
 
-		Image icon = Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/logo.png"));
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(BillManagementView.class.getResource("/resources/bill-icon.png")));
+		this.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(BillManagementView.class.getResource("/resources/bill-icon.png")));
 		setResizable(false);
 		setTitle("HaUI Grocery Store Management");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

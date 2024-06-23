@@ -88,58 +88,58 @@ public class Home extends JFrame {
 		mainPanel.add(logoutBtn);
 
 		ImageIcon logoIcon = new ImageIcon(getClass().getResource("/resources/haui_logo.png"));
-		Image logoImg = logoIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+		Image logoImg = logoIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
 		logoIcon = new ImageIcon(logoImg);
 		JLabel logoLabel = new JLabel(logoIcon);
-		logoLabel.setBounds(10, 131, 1244, 150);
+		logoLabel.setBounds(10, 131, 1244, 125);
 		mainPanel.add(logoLabel);
 
 		JButton categoryBtn = new JButton("Quản lý loại sản phẩm");
-		categoryBtn.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\product-management (1).png"));
+		categoryBtn.setIcon(new ImageIcon(getClass().getResource("/resources/product-management1.png")));
 		categoryBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new CategoryManagementView();
 			}
 		});
 		categoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		categoryBtn.setBounds(108, 424, 292, 107);
+		categoryBtn.setBounds(108, 391, 292, 107);
 		mainPanel.add(categoryBtn);
 
 		JButton productBtn = new JButton("Quản lý sản phẩm");
-		productBtn.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\product-management2.png"));
+		productBtn.setIcon(new ImageIcon(getClass().getResource("/resources/product-management2.png")));
 		productBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ProductManagementView();
 			}
 		});
 		productBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		productBtn.setBounds(108, 567, 292, 107);
+		productBtn.setBounds(108, 534, 292, 107);
 		mainPanel.add(productBtn);
 
 		JButton billBtn = new JButton("Quản lý hóa đơn");
-		billBtn.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\order.png"));
+		billBtn.setIcon(new ImageIcon(getClass().getResource("/resources/order.png")));
 		billBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new BillManagementView(user);
 			}
 		});
 		billBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		billBtn.setBounds(490, 424, 292, 107);
+		billBtn.setBounds(490, 391, 292, 107);
 		mainPanel.add(billBtn);
 
 		JButton verifyUserBtn = new JButton("Xác minh tài khoản");
-		verifyUserBtn.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\verified-account.png"));
+		verifyUserBtn.setIcon(new ImageIcon(getClass().getResource("/resources/verified-account.png")));
 		verifyUserBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new VerifyUserView(user);
 			}
 		});
 		verifyUserBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		verifyUserBtn.setBounds(853, 424, 292, 107);
+		verifyUserBtn.setBounds(853, 391, 292, 107);
 		mainPanel.add(verifyUserBtn);
 
 		JButton statBtn = new JButton("Thống kê");
-		statBtn.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\description.png"));
+		statBtn.setIcon(new ImageIcon(getClass().getResource("/resources/description.png")));
 		statBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -180,22 +180,22 @@ public class Home extends JFrame {
 			}
 		});
 		statBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		statBtn.setBounds(490, 567, 292, 107);
+		statBtn.setBounds(490, 534, 292, 107);
 		mainPanel.add(statBtn);
 
 		JButton changePassBtn = new JButton("Đổi mật khẩu");
-		changePassBtn.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\secured-laptop.png"));
+		changePassBtn.setIcon(new ImageIcon(getClass().getResource("/resources/secured-laptop.png")));
 		changePassBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ChangePasswordView(user);
 			}
 		});
 		changePassBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		changePassBtn.setBounds(853, 567, 292, 103);
+		changePassBtn.setBounds(853, 534, 292, 103);
 		mainPanel.add(changePassBtn);
 
 		JPanel productPanel = new JPanel();
-		productPanel.setBounds(200, 300, 250, 101);
+		productPanel.setBounds(200, 267, 250, 101);
 		mainPanel.add(productPanel);
 		productPanel.setLayout(null);
 
@@ -231,7 +231,7 @@ public class Home extends JFrame {
 		productPanel.add(productImage);
 		JPanel billPanel = new JPanel();
 		billPanel.setLayout(null);
-		billPanel.setBounds(505, 300, 250, 101);
+		billPanel.setBounds(505, 267, 250, 101);
 		mainPanel.add(billPanel);
 
 		JLabel billImage = new JLabel((Icon) billIcon);
@@ -259,7 +259,7 @@ public class Home extends JFrame {
 
 		JPanel revenuePanel = new JPanel();
 		revenuePanel.setLayout(null);
-		revenuePanel.setBounds(810, 300, 300, 101);
+		revenuePanel.setBounds(810, 267, 300, 101);
 		mainPanel.add(revenuePanel);
 
 		ImageIcon revenueIcon = new ImageIcon(getClass().getResource("/resources/revenue-icon.png"));
