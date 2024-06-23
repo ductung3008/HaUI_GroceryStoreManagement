@@ -36,7 +36,7 @@ public class VerifyUserView extends JFrame {
 	public VerifyUserView(User user) {
 		userDAO = new UserDAO();
 		Image icon = Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/logo.png"));
-		this.setIconImage(icon);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VerifyUserView.class.getResource("/resources/verified-account.png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 720);

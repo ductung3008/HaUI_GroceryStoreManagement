@@ -76,7 +76,7 @@ public class ProductManagementView extends JFrame {
 		productController = new ProductController(productDAO, this);
 
 		Image icon = Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/logo.png"));
-		this.setIconImage(icon);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(ProductManagementView.class.getResource("/resources/product-management2.png")));
 		setResizable(false);
 		setTitle("HaUI Grocery Store Management");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

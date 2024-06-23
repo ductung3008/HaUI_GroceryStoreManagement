@@ -43,7 +43,7 @@ public class ChangePasswordView extends JFrame {
 	public ChangePasswordView(User user) {
 		userDAO = new UserDAO();
 		Image icon = Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/logo.png"));
-		this.setIconImage(icon);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\secured-laptop.png"));
 		setResizable(false);
 		setTitle("Đổi mật khẩu");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

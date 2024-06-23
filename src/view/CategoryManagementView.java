@@ -57,7 +57,7 @@ public class CategoryManagementView extends JFrame {
 		categoryController = new CategoryController(categoryDAO, this);
 
 		Image icon = Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/logo.png"));
-		this.setIconImage(icon);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(CategoryManagementView.class.getResource("/resources/product-management (1).png")));
 		setResizable(false);
 		setTitle("HaUI Grocery Store Management");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

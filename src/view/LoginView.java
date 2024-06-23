@@ -24,6 +24,7 @@ import dao.UserDAO;
 import model.User;
 import util.FormUtils;
 import util.HashPassword;
+import java.awt.Color;
 
 public class LoginView extends JFrame {
 
@@ -38,10 +39,11 @@ public class LoginView extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginView() {
+		setBackground(new Color(102, 51, 255));
 		userDAO = new UserDAO();
 		setTitle("Đăng nhập tài khoản");
 		Image icon = Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/logo.png"));
-		this.setIconImage(icon);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(LoginView.class.getResource("/resources/verified-account.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		mainPanel = new JPanel();

@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import controller.CategoryController;
 import model.Category;
 import util.FormUtils;
+import java.awt.Toolkit;
 
 public class CategoryView extends JFrame {
 
@@ -33,6 +34,7 @@ public class CategoryView extends JFrame {
 	 * Create the frame.
 	 */
 	public CategoryView(CategoryController categoryController, Category category, boolean isEdit) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CategoryView.class.getResource("/resources/logo.png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 340);

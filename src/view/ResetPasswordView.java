@@ -42,7 +42,7 @@ public class ResetPasswordView extends JFrame {
 		userDAO = new UserDAO();
 		setTitle("Lấy lại mật khẩu");
 		Image icon = Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/logo.png"));
-		this.setIconImage(icon);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(ResetPasswordView.class.getResource("/resources/verified-account.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		mainPanel = new JPanel();

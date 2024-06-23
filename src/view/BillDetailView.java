@@ -38,7 +38,7 @@ public class BillDetailView extends JFrame {
 		userController = new UserController(userDAO);
 
 		Image icon = Toolkit.getDefaultToolkit().getImage(SignupView.class.getResource("/resources/logo.png"));
-		this.setIconImage(icon);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(BillDetailView.class.getResource("/resources/bill-icon.png")));
 		HashMap<Product, Integer> products = bill.getProducts();
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

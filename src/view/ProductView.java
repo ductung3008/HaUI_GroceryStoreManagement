@@ -26,6 +26,8 @@ import dao.CategoryDAO;
 import model.Category;
 import model.Product;
 import util.FormUtils;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class ProductView extends JFrame {
 
@@ -43,6 +45,7 @@ public class ProductView extends JFrame {
 	 * Create the frame.
 	 */
 	public ProductView(ProductController productController, Product product, boolean isEdit) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ProductView.class.getResource("/resources/add-icon.png")));
 		categoryDao = new CategoryDAO();
 		categoryController = new CategoryController(categoryDao, null);
 		setResizable(false);
@@ -104,6 +107,7 @@ public class ProductView extends JFrame {
 			idField.setEnabled(false);
 
 		JButton saveBtn = new JButton("LƯU");
+		saveBtn.setIcon(new ImageIcon(ProductView.class.getResource("/resources/diskette.png")));
 		saveBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!FormUtils.ValidateForm(mainPanel)) {

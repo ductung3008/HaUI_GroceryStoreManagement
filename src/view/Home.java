@@ -95,46 +95,51 @@ public class Home extends JFrame {
 		mainPanel.add(logoLabel);
 
 		JButton categoryBtn = new JButton("Quản lý loại sản phẩm");
+		categoryBtn.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\product-management (1).png"));
 		categoryBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new CategoryManagementView();
 			}
 		});
 		categoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		categoryBtn.setBounds(366, 425, 200, 32);
+		categoryBtn.setBounds(108, 424, 292, 107);
 		mainPanel.add(categoryBtn);
 
 		JButton productBtn = new JButton("Quản lý sản phẩm");
+		productBtn.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\product-management2.png"));
 		productBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ProductManagementView();
 			}
 		});
 		productBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		productBtn.setBounds(366, 500, 200, 32);
+		productBtn.setBounds(108, 567, 292, 107);
 		mainPanel.add(productBtn);
 
 		JButton billBtn = new JButton("Quản lý hóa đơn");
+		billBtn.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\order.png"));
 		billBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new BillManagementView(user);
 			}
 		});
 		billBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		billBtn.setBounds(366, 578, 200, 32);
+		billBtn.setBounds(490, 424, 292, 107);
 		mainPanel.add(billBtn);
 
 		JButton verifyUserBtn = new JButton("Xác minh tài khoản");
+		verifyUserBtn.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\verified-account.png"));
 		verifyUserBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new VerifyUserView(user);
 			}
 		});
 		verifyUserBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		verifyUserBtn.setBounds(700, 425, 200, 32);
+		verifyUserBtn.setBounds(853, 424, 292, 107);
 		mainPanel.add(verifyUserBtn);
 
 		JButton statBtn = new JButton("Thống kê");
+		statBtn.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\description.png"));
 		statBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -175,17 +180,18 @@ public class Home extends JFrame {
 			}
 		});
 		statBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		statBtn.setBounds(700, 500, 200, 32);
+		statBtn.setBounds(490, 567, 292, 107);
 		mainPanel.add(statBtn);
 
 		JButton changePassBtn = new JButton("Đổi mật khẩu");
+		changePassBtn.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\HaUI_GroceryStoreManagement\\src\\resources\\secured-laptop.png"));
 		changePassBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ChangePasswordView(user);
 			}
 		});
 		changePassBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		changePassBtn.setBounds(700, 578, 200, 32);
+		changePassBtn.setBounds(853, 567, 292, 103);
 		mainPanel.add(changePassBtn);
 
 		JPanel productPanel = new JPanel();
