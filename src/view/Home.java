@@ -90,41 +90,41 @@ public class Home extends JFrame {
 		ImageIcon logoIcon = new ImageIcon(getClass().getResource("/resources/haui_logo.png"));
 		Image logoImg = logoIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
 		logoIcon = new ImageIcon(logoImg);
-		JLabel logoLabel = new JLabel(logoIcon);
-		logoLabel.setBounds(10, 131, 1244, 125);
-		mainPanel.add(logoLabel);
 
 		JButton categoryBtn = new JButton("Quản lý loại sản phẩm");
 		categoryBtn.setIcon(new ImageIcon(getClass().getResource("/resources/product-management1.png")));
 		categoryBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new CategoryManagementView();
+				dispose();
+				new CategoryManagementView(user);
 			}
 		});
 		categoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		categoryBtn.setBounds(108, 391, 292, 107);
+		categoryBtn.setBounds(107, 250, 292, 107);
 		mainPanel.add(categoryBtn);
 
 		JButton productBtn = new JButton("Quản lý sản phẩm");
 		productBtn.setIcon(new ImageIcon(getClass().getResource("/resources/product-management2.png")));
 		productBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ProductManagementView();
+				dispose();
+				new ProductManagementView(user);
 			}
 		});
 		productBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		productBtn.setBounds(108, 534, 292, 107);
+		productBtn.setBounds(107, 393, 292, 107);
 		mainPanel.add(productBtn);
 
 		JButton billBtn = new JButton("Quản lý hóa đơn");
 		billBtn.setIcon(new ImageIcon(getClass().getResource("/resources/order.png")));
 		billBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				dispose();
 				new BillManagementView(user);
 			}
 		});
 		billBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		billBtn.setBounds(490, 391, 292, 107);
+		billBtn.setBounds(489, 250, 292, 107);
 		mainPanel.add(billBtn);
 
 		JButton verifyUserBtn = new JButton("Xác minh tài khoản");
@@ -135,7 +135,7 @@ public class Home extends JFrame {
 			}
 		});
 		verifyUserBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		verifyUserBtn.setBounds(853, 391, 292, 107);
+		verifyUserBtn.setBounds(852, 250, 292, 107);
 		mainPanel.add(verifyUserBtn);
 
 		JButton statBtn = new JButton("Thống kê");
@@ -180,7 +180,7 @@ public class Home extends JFrame {
 			}
 		});
 		statBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		statBtn.setBounds(490, 534, 292, 107);
+		statBtn.setBounds(489, 536, 292, 107);
 		mainPanel.add(statBtn);
 
 		JButton changePassBtn = new JButton("Đổi mật khẩu");
@@ -191,11 +191,11 @@ public class Home extends JFrame {
 			}
 		});
 		changePassBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		changePassBtn.setBounds(853, 534, 292, 103);
+		changePassBtn.setBounds(852, 393, 292, 103);
 		mainPanel.add(changePassBtn);
 
 		JPanel productPanel = new JPanel();
-		productPanel.setBounds(200, 267, 250, 101);
+		productPanel.setBounds(200, 125, 250, 101);
 		mainPanel.add(productPanel);
 		productPanel.setLayout(null);
 
@@ -231,7 +231,7 @@ public class Home extends JFrame {
 		productPanel.add(productImage);
 		JPanel billPanel = new JPanel();
 		billPanel.setLayout(null);
-		billPanel.setBounds(505, 267, 250, 101);
+		billPanel.setBounds(505, 125, 250, 101);
 		mainPanel.add(billPanel);
 
 		JLabel billImage = new JLabel((Icon) billIcon);
@@ -259,7 +259,7 @@ public class Home extends JFrame {
 
 		JPanel revenuePanel = new JPanel();
 		revenuePanel.setLayout(null);
-		revenuePanel.setBounds(810, 267, 300, 101);
+		revenuePanel.setBounds(810, 125, 300, 101);
 		mainPanel.add(revenuePanel);
 
 		ImageIcon revenueIcon = new ImageIcon(getClass().getResource("/resources/revenue-icon.png"));
@@ -297,9 +297,26 @@ public class Home extends JFrame {
 			revenueNum.setFont(new Font("Tahoma", Font.PLAIN, 40));
 			revenueNum.setBounds(111, 43, 189, 47);
 			revenuePanel.add(revenueNum);
+
 		} catch (ClassNotFoundException | IOException e1) {
 			e1.printStackTrace();
 		}
+
+		ImageIcon addBillIcon = new ImageIcon(getClass().getResource("/resources/create-bill-icon.png"));
+		Image addBillImg = addBillIcon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+		addBillIcon = new ImageIcon(addBillImg);
+
+		JButton addBillBtn = new JButton("Tạo hóa đơn");
+		addBillBtn.setIcon((Icon) addBillIcon);
+		addBillBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new BillView(billController, user);
+			}
+		});
+		addBillBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		addBillBtn.setBounds(489, 393, 292, 107);
+		mainPanel.add(addBillBtn);
 
 		setLocationRelativeTo(null);
 		setVisible(true);

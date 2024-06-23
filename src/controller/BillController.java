@@ -29,7 +29,8 @@ public class BillController {
 		if (!billDAO.add(Bill)) {
 			return false;
 		}
-		bmv.updateBillTable(getAllBills());
+		if (bmv != null)
+			bmv.updateBillTable(getAllBills());
 		return true;
 	}
 
@@ -37,7 +38,8 @@ public class BillController {
 		if (!billDAO.update(Bill)) {
 			return false;
 		}
-		bmv.updateBillTable(getAllBills());
+		if (bmv != null)
+			bmv.updateBillTable(getAllBills());
 		return true;
 	}
 
@@ -45,7 +47,8 @@ public class BillController {
 		if (!billDAO.delete(Bill)) {
 			return false;
 		}
-		bmv.updateBillTable(getAllBills());
+		if (bmv != null)
+			bmv.updateBillTable(getAllBills());
 		return true;
 	}
 
@@ -56,7 +59,8 @@ public class BillController {
 		else
 			searchedBills = bills.stream().filter(bill -> bill.getDate().contains(keyword))
 					.collect(Collectors.toList());
-		bmv.updateBillTable(searchedBills);
+		if (bmv != null)
+			bmv.updateBillTable(searchedBills);
 	}
 
 }

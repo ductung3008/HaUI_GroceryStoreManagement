@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
@@ -37,6 +39,7 @@ import javax.swing.table.DefaultTableModel;
 import controller.CategoryController;
 import dao.CategoryDAO;
 import model.Category;
+import model.User;
 import util.ButtonHover;
 
 public class CategoryManagementView extends JFrame {
@@ -52,9 +55,17 @@ public class CategoryManagementView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CategoryManagementView() {
+	public CategoryManagementView(User user) {
 		categoryDAO = new CategoryDAO();
 		categoryController = new CategoryController(categoryDAO, this);
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				dispose();
+				new Home(user);
+			}
+		});
 
 		this.setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(CategoryManagementView.class.getResource("/resources/product-management1.png")));

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,6 +48,15 @@ public class BillView extends JFrame implements ProductSelection {
 	public BillView(BillController billController, User user) {
 		productDAO = new ProductDAO();
 		productController = new ProductController(productDAO, null);
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				dispose();
+				new Home(user);
+			}
+		});
+
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 720);
@@ -120,7 +131,6 @@ public class BillView extends JFrame implements ProductSelection {
 				for (int i = 0; i < rowCount; i++) {
 					int productId = Integer.parseInt(dtm.getValueAt(i, 0).toString());
 					try {
-						System.out.println(String.valueOf(dtm.getValueAt(i, 3)));
 						Product product = productController.getProductById(productId);
 						int buyQuantity = Integer.valueOf(String.valueOf(dtm.getValueAt(i, 3)));
 						products.put(product, buyQuantity);
@@ -131,19 +141,21 @@ public class BillView extends JFrame implements ProductSelection {
 					}
 				}
 
-				for (Product product : products.keySet()) {
-					System.out.println(product);
-					System.out.println(products.get(product));
-				}
-
 				try {
-					billController.addBill(new Bill(id, name, adminId, date, products));
+					if (billController.addBill(new Bill(id, name, adminId, date, products))) {
+						JOptionPane.showMessageDialog(BillView.this, "Tạo hóa đơn thành công");
+						dispose();
+						new Home(user);
+					} else {
+						JOptionPane.showMessageDialog(BillView.this, "Tạo hóa đơn thất bại", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+
 				} catch (ClassNotFoundException | IOException e1) {
 					e1.printStackTrace();
 				}
 
 				FormUtils.resetForm(mainPanel);
-				dispose();
 			}
 		});
 		saveBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));

@@ -7,6 +7,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,14 @@ public class BillManagementView extends JFrame {
 		billDAO = new BillDAO();
 		billController = new BillController(billDAO, this);
 
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				dispose();
+				new Home(user);
+			}
+		});
+
 		this.setIconImage(
 				Toolkit.getDefaultToolkit().getImage(BillManagementView.class.getResource("/resources/bill-icon.png")));
 		setResizable(false);
@@ -82,29 +92,6 @@ public class BillManagementView extends JFrame {
 		panel.add(headerPanel, BorderLayout.NORTH);
 		FlowLayout fl_headerPanel = new FlowLayout(FlowLayout.LEFT, 5, 5);
 		headerPanel.setLayout(fl_headerPanel);
-
-		JButton addBtn = new JButton("TẠO");
-		addBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new BillView(billController, user);
-			}
-		});
-
-		addBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		headerPanel.add(addBtn);
-		addBtn.setOpaque(false);
-		addBtn.setContentAreaFilled(false);
-		addBtn.setBorderPainted(false);
-		try {
-			Image img = ImageIO.read(getClass().getResource("/resources/add-icon.png"));
-			Image sizedImg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-			addBtn.setIcon(new ImageIcon(sizedImg));
-			addBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
-			addBtn.setHorizontalTextPosition(SwingConstants.CENTER);
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		ButtonHover.addButtonHover(addBtn);
 
 		JButton detailBtn = new JButton("XEM CHI TIẾT");
 		detailBtn.addActionListener(new ActionListener() {

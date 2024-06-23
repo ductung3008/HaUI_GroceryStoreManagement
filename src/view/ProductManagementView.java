@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -44,6 +46,7 @@ import controller.ProductController;
 import dao.CategoryDAO;
 import dao.ProductDAO;
 import model.Product;
+import model.User;
 import service.ProductSelection;
 import util.ButtonHover;
 
@@ -64,8 +67,15 @@ public class ProductManagementView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ProductManagementView() {
+	public ProductManagementView(User user) {
 		this(false, null);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				dispose();
+				new Home(user);
+			}
+		});
 	}
 
 	public ProductManagementView(boolean isBuying, ProductSelection listener) {
@@ -319,7 +329,13 @@ public class ProductManagementView extends JFrame {
 			}
 		});
 
-		table = new JTable();
+		table = new JTable() {
+			private static final long serialVersionUID = 1L;
+
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			};
+		};
 		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "ID", "T\u00EAn s\u1EA3n ph\u1EA9m",
 				"Lo\u1EA1i s\u1EA3n ph\u1EA9m", "\u0110\u01A1n gi\u00E1", "S\u1ED1 l\u01B0\u1EE3ng c\u00F2n" }));
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
