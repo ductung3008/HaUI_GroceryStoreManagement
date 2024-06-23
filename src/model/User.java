@@ -10,14 +10,11 @@ public class User implements Serializable {
 	private String password;
 	private boolean isVerify;
 
-	private static int id_count = 1;
-
 	public User() {
 	}
 
-	public User(String username, String email, String password, boolean isVerify) {
-		this.id = User.id_count;
-		User.id_count++;
+	public User(int id, String username, String email, String password, boolean isVerify) {
+		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.password = password;
