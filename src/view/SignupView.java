@@ -20,6 +20,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import controller.UserController;
 import dao.UserDAO;
 import model.User;
 import util.FormUtils;
@@ -136,17 +137,19 @@ public class SignupView extends JFrame {
 					return;
 				}
 
-				User user = new User(username, email, password, false);
+				UserDAO userDAO = new UserDAO();
+				UserController userController = new UserController(userDAO);
+				int id;
 				try {
+					id = userController.getAllUsers().size() + 1;
+					User user = new User(id, username, email, password, false);
 					if (!userDAO.add(user)) {
 						JOptionPane.showMessageDialog(SignupView.this,
 								"Đã tồn tại tài khoản với tên tài khoản hoặc email này. Vui lòng thử lại.", "Error",
 								JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-				} catch (ClassNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
+				} catch (ClassNotFoundException | IOException e1) {
 					e1.printStackTrace();
 				}
 
