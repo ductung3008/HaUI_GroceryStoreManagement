@@ -10,17 +10,13 @@ import javax.swing.JTextField;
 public class FormUtils {
 	public static boolean ValidateForm(JPanel inputPanel) {
 		List<JTextField> jtfs = new ArrayList<>();
-
 		collectTextFields(inputPanel, jtfs);
-
 		return jtfs.stream().noneMatch(jtf -> jtf.getText().isEmpty());
 	}
 
 	public static void resetForm(JPanel inputPanel) {
 		List<JTextField> jtfs = new ArrayList<>();
-
 		collectTextFields(inputPanel, jtfs);
-
 		jtfs.forEach(jtf -> jtf.setText(""));
 	}
 

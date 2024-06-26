@@ -39,6 +39,7 @@ public class LoginView extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginView() {
+		setResizable(false);
 		setBackground(new Color(102, 51, 255));
 		userDAO = new UserDAO();
 		setTitle("Đăng nhập tài khoản");

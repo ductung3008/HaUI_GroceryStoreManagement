@@ -51,7 +51,7 @@ public class BillDetailView extends JFrame {
 
 		JLabel titleLabel = new JLabel("HÓA ĐƠN", SwingConstants.CENTER);
 		titleLabel.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		titleLabel.setBounds(10, 0, 414, 55);
+		titleLabel.setBounds(10, 0, 464, 55);
 		mainPanel.add(titleLabel);
 
 		JLabel idLabel = new JLabel("Mã hóa đơn");

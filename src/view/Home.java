@@ -208,7 +208,7 @@ public class Home extends JFrame {
 		productImage.setOpaque(true);
 		productPanel.add(productImage);
 
-		JLabel productTitle = new JLabel("Sản phẩm tồn kho", SwingConstants.CENTER);
+		JLabel productTitle = new JLabel("Số sản phẩm", SwingConstants.CENTER);
 		productTitle.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		productTitle.setBounds(111, 11, 139, 21);
 		productPanel.add(productTitle);
